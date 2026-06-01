@@ -1,0 +1,48 @@
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  min-width: var(--ds-shell-min-width);
+  min-height: var(--ds-screen-h);
+  margin: 0;
+  background: var(--ds-bg);
+}
+
+:root {
+  color: var(--ds-text);
+  background: var(--ds-bg);
+  font: var(--ds-type-body);
+  font-synthesis: none;
+  letter-spacing: 0;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+button,
+textarea,
+input {
+  font: inherit;
+}
+
+button {
+  cursor: pointer;
+}
+
+h1,
+h2,
+p {
+  margin: 0;
+}
+
+code,
+kbd,
+pre {
+  font: var(--ds-type-code);
+}
+
+#root {
+  min-height: var(--ds-screen-h);
+}
