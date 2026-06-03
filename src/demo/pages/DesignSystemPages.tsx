@@ -91,11 +91,9 @@ import {
 import {
   areaContent,
   badgeNode,
-  codeSectionBlock,
   countNode,
   deltaSectionBlock,
   gridBlock,
-  itemSectionBlock,
   itemSection,
   sectionBlock,
   sectionGridBlock,
@@ -104,11 +102,8 @@ import {
   sectionTrioBlock,
   markedCodeItems,
   metaBlock,
-  meterSectionBlock,
-  metricSectionBlock,
   metricSection,
   navigation,
-  recordSectionBlock,
   recordSection,
   stateNode,
   statusSectionBlock,
@@ -142,6 +137,12 @@ import {
 import { previewStageBlock } from '../../design-system/catalog/componentPreviewBlocks'
 import {
   assemblyNode,
+  sampleCodeSection,
+  sampleDenseSections,
+  sampleItemSection,
+  sampleMeterSection,
+  sampleMetricSection,
+  sampleRecordSection,
   sampleSectionGridBlock,
   sampleSections,
   sampleStatusSection,
@@ -1053,7 +1054,7 @@ function componentPreviewFor(name: string): ComponentPreview {
           gridBlock({
             columns: 2,
             count: '2',
-            items: sampleSections().map((section, index) =>
+            items: sampleDenseSections().slice(0, 4).map((section, index) =>
               assemblyNode([sectionBlock(section)], index),
             ),
             title: 'Grouped sections',
@@ -1077,8 +1078,8 @@ function componentPreviewFor(name: string): ComponentPreview {
       return assemblyPreview([
         gridBlock({
           columns: 2,
-          count: '2',
-          items: sampleSections().map((section, index) =>
+          count: '4',
+          items: sampleDenseSections().map((section, index) =>
             assemblyNode([sectionBlock(section)], index),
           ),
           title: 'Group',
@@ -1126,42 +1127,28 @@ function componentPreviewFor(name: string): ComponentPreview {
         }),
       ])
     case 'SectionBlock':
-      return assemblyPreview([sectionBlock(sampleStatusSection('One list'))])
+      return assemblyPreview([sectionBlock(sampleStatusSection('State'))])
     case 'SectionStackBlock':
-      return assemblyPreview([sectionStackBlock(sampleSections())])
+      return assemblyPreview([sectionStackBlock(sampleDenseSections().slice(0, 3))])
     case 'SectionPairBlock':
       return assemblyPreview([
         sectionPairBlock(
-          sampleStatusSection('First'),
-          sampleValueSection('Second'),
+          sampleStatusSection('State'),
+          sampleRecordSection('Records'),
         ),
       ])
     case 'SectionTrioBlock':
       return assemblyPreview([
         sectionTrioBlock(
-          sampleStatusSection('First'),
-          sampleValueSection('Second'),
-          recordSection({
-            items: [
-              { detail: 'Secondary detail', title: 'Primary record' },
-              { detail: 'Secondary detail', title: 'Secondary record' },
-            ],
-            title: 'Third',
-          }),
+          sampleStatusSection('State'),
+          sampleValueSection('Values'),
+          sampleRecordSection('Records'),
         ),
       ])
     case 'SectionGridBlock':
       return assemblyPreview([sectionGridBlock(2, sampleSections())], 'wide')
     case 'CodeSectionBlock':
-      return assemblyPreview([
-        codeSectionBlock({
-          items: markedCodeItems([
-            ['+', "const state = 'ready'"],
-            ['-', "const state = 'pending'"],
-          ]),
-          title: 'Code',
-        }),
-      ])
+      return assemblyPreview([sectionBlock(sampleCodeSection())])
     case 'DeltaSectionBlock':
       return assemblyPreview([
         deltaSectionBlock({
@@ -1173,70 +1160,17 @@ function componentPreviewFor(name: string): ComponentPreview {
         }),
       ])
     case 'ItemSectionBlock':
-      return assemblyPreview([
-        itemSectionBlock({
-          items: [
-            { icon: FileText, label: 'Primary item' },
-            { icon: Globe2, label: 'Secondary item' },
-          ],
-          title: 'Items',
-        }),
-      ])
+      return assemblyPreview([sectionBlock(sampleItemSection())])
     case 'MetricSectionBlock':
-      return assemblyPreview([
-        metricSectionBlock({
-          columns: 2,
-          items: [
-            { label: 'Files', value: '8' },
-            { label: 'Tests', value: '2' },
-          ],
-          title: 'Metrics',
-        }),
-      ])
+      return assemblyPreview([sectionBlock(sampleMetricSection())])
     case 'MeterSectionBlock':
-      return assemblyPreview([
-        meterSectionBlock({
-          items: [
-            { label: 'Team load', meter: 76, value: '76%' },
-            { label: 'Open blocks', meter: 42, value: '11' },
-          ],
-          title: 'Meters',
-        }),
-      ])
+      return assemblyPreview([sectionBlock(sampleMeterSection())])
     case 'RecordSectionBlock':
-      return assemblyPreview([
-        recordSectionBlock({
-          items: [
-            {
-              detail: 'Secondary detail',
-              meta: stateNode('done'),
-              title: 'Primary record',
-            },
-            { detail: 'Secondary detail', title: 'Secondary record' },
-          ],
-          title: 'Records',
-        }),
-      ])
+      return assemblyPreview([sectionBlock(sampleRecordSection())])
     case 'StatusSectionBlock':
-      return assemblyPreview([
-        statusSectionBlock({
-          items: [
-            { label: 'Primary state', done: true },
-            { label: 'Secondary state' },
-          ],
-          title: 'Status',
-        }),
-      ])
+      return assemblyPreview([sectionBlock(sampleStatusSection('State'))])
     case 'ValueSectionBlock':
-      return assemblyPreview([
-        valueSectionBlock({
-          items: [
-            { label: 'Density', value: 'Compact' },
-            { label: 'Radius', value: 'Small' },
-          ],
-          title: 'Values',
-        }),
-      ])
+      return assemblyPreview([sectionBlock(sampleValueSection())])
     case 'SurfaceBlock':
       return assemblyPreview([
         surfaceBlock({
@@ -1527,7 +1461,7 @@ function componentPreviewFor(name: string): ComponentPreview {
         [
           gridBlock({
             columns: 2,
-            items: sampleSections().map((section, index) =>
+            items: sampleDenseSections().map((section, index) =>
               assemblyNode([sectionBlock(section)], index),
             ),
             title: 'Grid',
