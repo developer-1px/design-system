@@ -8,6 +8,9 @@ importers:
 
   .:
     dependencies:
+      '@interactive-os/aria':
+        specifier: file:../apg-patterns
+        version: file:../apg-patterns(react@19.2.6)
       '@tanstack/react-router':
         specifier: ^1.170.10
         version: 1.170.10(react-dom@19.2.6(react@19.2.6))(react@19.2.6)
@@ -194,6 +197,15 @@ packages:
   '@humanwhocodes/retry@0.4.3':
     resolution: {integrity: sha512-bV0Tgo9K4hfPCek+aMAn81RppFKv2ySDQeMoSZuvTASywNTnVJCArCZE2FWqpvIatKu7VMRLWlR1EazvVhDyhQ==}
     engines: {node: '>=18.18'}
+
+  '@interactive-os/aria@file:../apg-patterns':
+    resolution: {directory: ../apg-patterns, type: directory}
+    engines: {node: '>=18.18'}
+    peerDependencies:
+      react: ^18.0.0 || ^19.0.0
+    peerDependenciesMeta:
+      react:
+        optional: true
 
   '@jridgewell/gen-mapping@0.3.13':
     resolution: {integrity: sha512-2kkt/7niJ6MgEPxF0bYdQ6etZaA+fQvDcLKckhy1yIQOzaoKjBBjSj63/aLVjYE3qhRt5dvM+uUyfCg6UKCBbA==}
@@ -1149,6 +1161,12 @@ snapshots:
   '@humanwhocodes/module-importer@1.0.1': {}
 
   '@humanwhocodes/retry@0.4.3': {}
+
+  '@interactive-os/aria@file:../apg-patterns(react@19.2.6)':
+    dependencies:
+      zod: 4.4.3
+    optionalDependencies:
+      react: 19.2.6
 
   '@jridgewell/gen-mapping@0.3.13':
     dependencies:

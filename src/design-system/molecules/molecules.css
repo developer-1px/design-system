@@ -1,0 +1,90 @@
+.ds-molecule-row {
+  display: grid;
+  min-height: var(--ds-row-content-height);
+  min-width: 0;
+  grid-template-columns: var(--ds-row-marker-size) minmax(0, 1fr);
+  align-items: center;
+  column-gap: var(--ds-row-inline-gap);
+  color: var(--ds-text-muted);
+  font: var(--ds-type-caption);
+}
+
+.ds-molecule-marker {
+  display: inline-flex;
+  width: var(--ds-row-marker-size);
+  height: var(--ds-row-marker-size);
+  align-items: center;
+  justify-content: center;
+  color: var(--ds-text-muted);
+}
+
+.ds-molecule-row[data-marker='false'] {
+  grid-template-columns: minmax(0, 1fr);
+}
+
+.ds-molecule-row[data-value='true'] {
+  grid-template-columns:
+    var(--ds-row-marker-size) minmax(0, 1fr)
+    max-content;
+}
+
+.ds-molecule-row[data-marker='false'][data-value='true'] {
+  grid-template-columns: minmax(0, 1fr) max-content;
+}
+
+.ds-molecule-label {
+  display: grid;
+  min-width: 0;
+}
+
+.ds-molecule-title,
+.ds-molecule-detail,
+.ds-molecule-value {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.ds-molecule-detail {
+  color: var(--ds-text-muted);
+  font: var(--ds-type-caption);
+}
+
+.ds-molecule-row[data-label-tone='strong'] .ds-molecule-title {
+  color: var(--ds-text);
+  font: var(--ds-type-control);
+}
+
+.ds-molecule-row[data-label-tone='code'] .ds-molecule-title {
+  color: var(--ds-text);
+  font: var(--ds-type-code);
+}
+
+.ds-molecule-value {
+  color: var(--ds-text);
+  font: var(--ds-type-control);
+  text-align: right;
+}
+
+.ds-molecule-row[data-value-tone='muted'] .ds-molecule-value {
+  color: var(--ds-text-faint);
+  font: var(--ds-type-caption);
+}
+
+.ds-molecule-row[data-value-tone='positive'] .ds-molecule-value {
+  color: var(--ds-positive);
+  font: var(--ds-type-code);
+}
+
+.ds-molecule-row[data-state='done'] {
+  color: var(--ds-text);
+}
+
+.ds-molecule-row[data-state='done'] .ds-molecule-marker {
+  color: var(--ds-positive);
+}
+
+.ds-molecule-row[data-muted='true'] {
+  color: var(--ds-text-faint);
+}

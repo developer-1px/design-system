@@ -1,0 +1,182 @@
+.ds-blueprint {
+  display: grid;
+  width: var(--ds-full);
+  min-height: var(--ds-space-64);
+  gap: var(--ds-space-4);
+}
+
+.ds-blueprint[data-layout='main'] {
+  grid-template-areas: "main";
+  grid-template-columns: minmax(0, 1fr);
+}
+
+.ds-blueprint[data-layout='rail-main'] {
+  grid-template-areas: "rail main";
+  grid-template-columns: var(--ds-layout-aside-fr) minmax(0, 1fr);
+}
+
+.ds-blueprint[data-layout='rail-main-aside'] {
+  grid-template-areas: "rail main aside";
+  grid-template-columns:
+    var(--ds-layout-aside-narrow-fr) minmax(0, 1fr)
+    var(--ds-layout-aside-fr);
+}
+
+.ds-blueprint[data-layout='main-aside'] {
+  grid-template-areas: "main aside";
+  grid-template-columns: minmax(0, 1fr) var(--ds-layout-aside-fr);
+}
+
+.ds-blueprint[data-layout='main-stack-aside'] {
+  grid-template-areas:
+    "main aside"
+    "secondary aside";
+  grid-template-columns: minmax(0, 1fr) var(--ds-layout-aside-fr);
+}
+
+.ds-blueprint[data-layout='triad'] {
+  grid-template-areas:
+    "main secondary aside"
+    "tertiary tertiary aside";
+  grid-template-columns:
+    var(--ds-layout-primary-compact-fr)
+    var(--ds-layout-secondary-fr)
+    var(--ds-layout-tertiary-fr);
+}
+
+.ds-blueprint[data-layout='matrix'] {
+  grid-template-areas:
+    "main secondary aside"
+    "tertiary secondary aside";
+  grid-template-columns:
+    var(--ds-layout-primary-fr)
+    var(--ds-layout-secondary-wide-fr)
+    var(--ds-layout-tertiary-wide-fr);
+}
+
+.ds-blueprint-cell {
+  min-width: 0;
+  border-radius: var(--ds-radius-xs);
+  background: var(--ds-selection);
+}
+
+.ds-blueprint-cell[data-area='main'] {
+  grid-area: main;
+  background: var(--ds-control-active);
+}
+
+.ds-blueprint-cell[data-area='rail'] {
+  grid-area: rail;
+}
+
+.ds-blueprint-cell[data-area='secondary'] {
+  grid-area: secondary;
+  background: var(--ds-control);
+}
+
+.ds-blueprint-cell[data-area='tertiary'] {
+  grid-area: tertiary;
+}
+
+.ds-blueprint-cell[data-area='aside'] {
+  grid-area: aside;
+}
+
+.ds-pattern-blueprint {
+  display: grid;
+  width: var(--ds-full);
+  min-height: var(--ds-space-64);
+  gap: var(--ds-space-4);
+  align-content: center;
+}
+
+.ds-pattern-blueprint-cell {
+  display: block;
+  min-width: 0;
+  min-height: var(--ds-space-12);
+  border-radius: var(--ds-radius-xs);
+  background: var(--ds-selection);
+}
+
+.ds-pattern-blueprint-cell[data-part='primary'],
+.ds-pattern-blueprint-cell[data-part='selected'],
+.ds-pattern-blueprint-cell[data-part='thumb'],
+.ds-pattern-blueprint-cell[data-part='title'] {
+  background: var(--ds-control-active);
+}
+
+.ds-pattern-blueprint-cell[data-part='body'],
+.ds-pattern-blueprint-cell[data-part='panel'],
+.ds-pattern-blueprint-cell[data-part='card'],
+.ds-pattern-blueprint-cell[data-part='main'] {
+  min-height: var(--ds-space-24);
+}
+
+.ds-pattern-blueprint-cell[data-part='secondary'],
+.ds-pattern-blueprint-cell[data-part='option'],
+.ds-pattern-blueprint-cell[data-part='item'],
+.ds-pattern-blueprint-cell[data-part='row'],
+.ds-pattern-blueprint-cell[data-part='branch'],
+.ds-pattern-blueprint-cell[data-part='action'] {
+  background: var(--ds-control);
+}
+
+.ds-pattern-blueprint-cell[data-part='icon'],
+.ds-pattern-blueprint-cell[data-part='thumb'] {
+  width: var(--ds-space-18);
+  min-height: var(--ds-space-18);
+  border-radius: var(--ds-radius-sm);
+}
+
+.ds-pattern-blueprint[data-kind='command'],
+.ds-pattern-blueprint[data-kind='navigation'] {
+  grid-auto-flow: column;
+  grid-auto-columns: minmax(0, 1fr);
+  align-content: center;
+}
+
+.ds-pattern-blueprint[data-kind='dialog'] {
+  grid-template-columns: minmax(0, 1fr) minmax(0, var(--ds-layout-aside-fr));
+}
+
+.ds-pattern-blueprint[data-kind='dialog']
+  .ds-pattern-blueprint-cell[data-part='title'],
+.ds-pattern-blueprint[data-kind='dialog']
+  .ds-pattern-blueprint-cell[data-part='body'] {
+  grid-column: 1 / -1;
+}
+
+.ds-pattern-blueprint[data-kind='field'] {
+  grid-template-columns: minmax(0, 1fr);
+}
+
+.ds-pattern-blueprint[data-kind='layout'] {
+  grid-template-columns:
+    var(--ds-layout-aside-narrow-fr) minmax(0, 1fr)
+    var(--ds-layout-aside-fr);
+}
+
+.ds-pattern-blueprint[data-kind='message'] {
+  grid-template-columns: var(--ds-space-24) minmax(0, 1fr);
+}
+
+.ds-pattern-blueprint[data-kind='message']
+  .ds-pattern-blueprint-cell[data-part='icon'] {
+  grid-row: span 2;
+}
+
+.ds-pattern-blueprint[data-kind='range'] {
+  grid-template-columns: minmax(0, 1fr) var(--ds-space-18);
+  align-items: center;
+}
+
+.ds-pattern-blueprint[data-kind='range']
+  .ds-pattern-blueprint-cell[data-part='track'] {
+  min-height: var(--ds-space-8);
+}
+
+.ds-pattern-blueprint[data-kind='tree']
+  .ds-pattern-blueprint-cell[data-part='branch'] {
+  width: calc(var(--ds-full) - var(--ds-space-18));
+  justify-self: end;
+}

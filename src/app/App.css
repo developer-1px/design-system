@@ -1,0 +1,18 @@
+.approval-dock {
+  display: flex;
+  width: min(
+    var(--ds-form-width),
+    calc(var(--ds-full) - var(--content-gutter) - var(--content-gutter))
+  );
+  justify-self: start;
+  flex-direction: column;
+  margin-left: var(--content-gutter);
+  margin-bottom: var(--ds-space-16);
+}
+
+@media (max-width: 760px) {
+  .approval-dock {
+    width: calc(var(--ds-full) - var(--content-gutter) - var(--content-gutter));
+    margin-bottom: var(--ds-space-10);
+  }
+}
