@@ -375,7 +375,10 @@ export function CompositionPage() {
               items: [
                 { label: 'Names', value: 'structural' },
                 { label: 'Slots', value: 'open' },
+                { label: 'Rhythm', value: 'owned' },
+                { label: 'Alignment', value: 'owned' },
                 { label: 'Density', value: 'owned' },
+                { label: 'Meaning', value: 'consumer-supplied' },
               ],
               title: 'Layer contract',
             }),
@@ -432,6 +435,19 @@ export function CompositionPage() {
             rows: compositionReuseRows,
             title: 'Cross-domain reuse',
           }),
+          sectionGridBlock(
+            2,
+            compositionFormulaGroups.map((group) =>
+              valueSection({
+                detail: group.detail,
+                items: group.items.slice(0, 5).map((formula) => ({
+                  label: formula.name,
+                  value: formula.output,
+                })),
+                title: group.title,
+              }),
+            ),
+          ),
           ...compositionFormulaGroups.map((group) =>
           gridBlock({
             columns: 3,
