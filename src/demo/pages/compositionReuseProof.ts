@@ -12,6 +12,7 @@ export const compositionReuseRows: CompositionReuseRow[] = [
     page: 'analytics',
     layout: 'matrix',
     formulas: [
+      'contentStack',
       'metricSectionBlock',
       'meterSectionBlock',
       'tableBlock',
@@ -23,6 +24,7 @@ export const compositionReuseRows: CompositionReuseRow[] = [
     page: 'commerce',
     layout: 'triad',
     formulas: [
+      'contentStack',
       'statusSectionBlock',
       'sectionPairBlock',
       'valueSection',
@@ -35,6 +37,7 @@ export const compositionReuseRows: CompositionReuseRow[] = [
     page: 'crm',
     layout: 'main-stack-aside',
     formulas: [
+      'contentStack',
       'sectionGridBlock',
       'recordSection',
       'sectionPairBlock',
@@ -47,6 +50,7 @@ export const compositionReuseRows: CompositionReuseRow[] = [
     page: 'schedule',
     layout: 'rail-main-aside',
     formulas: [
+      'contentStack',
       'recordSectionBlock',
       'tableBlock',
       'sectionPairBlock',
@@ -59,6 +63,7 @@ export const compositionReuseRows: CompositionReuseRow[] = [
     page: 'content',
     layout: 'rail-main-aside',
     formulas: [
+      'contentStack',
       'tableBlock',
       'sectionTrioBlock',
       'valueSection',
@@ -71,6 +76,7 @@ export const compositionReuseRows: CompositionReuseRow[] = [
     page: 'repository',
     layout: 'rail-main-aside',
     formulas: [
+      'contentStack',
       'treeBlock',
       'tableBlock',
       'codeSectionBlock',

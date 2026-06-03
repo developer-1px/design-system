@@ -1,6 +1,6 @@
 import type { ReactNode } from 'react'
 import { ContentAssembly, type AreaContentSpec } from '../primitives/primitives'
-import { areaContent } from '../composition/assembly'
+import { contentStack } from '../composition/assembly'
 import { PreviewBox, PreviewScale, type PreviewBoxSize } from './componentPreview'
 import type { PreviewMode } from './componentPreviewTypes'
 
@@ -30,7 +30,7 @@ export function assemblyPreview(
   className = '',
 ): ComponentPreview {
   return controlPreview(
-    <ContentAssembly content={areaContent({ blocks })} />,
+    <ContentAssembly content={contentStack(...blocks)} />,
     size,
     className,
   )

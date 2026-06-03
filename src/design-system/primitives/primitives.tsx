@@ -6,7 +6,7 @@ import type {
   MeterHTMLAttributes,
   ReactNode,
 } from 'react'
-import { Children, isValidElement } from 'react'
+import { Children, Fragment, isValidElement } from 'react'
 import { FileText, type LucideIcon } from 'lucide-react'
 import { molecule } from '../molecules/molecules'
 import { stateToneFor } from '../foundation/stateTone'
@@ -295,6 +295,16 @@ function SectionSurface({
   )
 }
 
+export type FormSectionProps = Omit<HTMLAttributes<HTMLFormElement>, 'title'> & {
+  actions?: ReactNode
+  children: ReactNode
+  className?: string
+  footer?: ReactNode
+  floating?: boolean
+  icon?: ReactNode
+  title: ReactNode
+}
+
 export function FormSection({
   actions,
   children,
@@ -304,15 +314,7 @@ export function FormSection({
   icon,
   title,
   ...props
-}: Omit<HTMLAttributes<HTMLFormElement>, 'title'> & {
-  actions?: ReactNode
-  children: ReactNode
-  className?: string
-  footer?: ReactNode
-  floating?: boolean
-  icon?: ReactNode
-  title: ReactNode
-}) {
+}: FormSectionProps) {
   return (
     <SectionSurface
       as="form"
@@ -378,6 +380,7 @@ export function Titlebar({
   return (
     <header
       className={`ds-titlebar ${className}`.trim()}
+      data-has-icon={icon ? 'true' : undefined}
       data-level={level}
       {...props}
     >
@@ -490,6 +493,7 @@ declare const areaContentBlockBrand: unique symbol
 type AreaContentBlock = {
   readonly [areaContentBlockBrand]: true
 } & (
+  | ({ block: 'form' } & FormBlockSpec)
   | ({ block: 'grid' } & TitledGridBlockSpec)
   | ({ block: 'meta' } & MetaBlockSpec)
   | ({ block: 'section-set' } & ListSectionSetSpec)
@@ -514,6 +518,10 @@ export type TitledGridBlockSpec = {
 }
 
 export type SurfaceBlockSpec = SectionProps & {
+  key?: string | number
+}
+
+export type FormBlockSpec = FormSectionProps & {
   key?: string | number
 }
 
@@ -600,6 +608,17 @@ function renderAreaContentBlock(block: AreaContentBlock, index: number) {
       >
         {children}
       </Section>
+    )
+  }
+
+  if (block.block === 'form') {
+    const formProps = stripAreaBlockKeys(block)
+
+    return (
+      <FormSection
+        key={block.key ?? rowKey(formProps.title, index)}
+        {...formProps}
+      />
     )
   }
 
@@ -775,7 +794,7 @@ export function CollectionGrid({
       data-columns={columns}
       {...props}
     >
-      {children}
+      {keyedChildren(children)}
     </div>
   )
 }
@@ -798,7 +817,7 @@ export function SectionGrid({
       columns={columns}
       {...props}
     >
-      {children}
+      {keyedChildren(children)}
     </CollectionGrid>
   )
 }
@@ -1338,7 +1357,7 @@ export function RowStack({
       role={role}
       {...props}
     >
-      {children}
+      {keyedChildren(children)}
     </Tag>
   )
 }
@@ -2197,4 +2216,14 @@ function TreeNode({ depth = 0, item }: { depth?: 0 | 1 | 2; item: TreeItem }) {
 
 function rowKey(value: ReactNode, index: number) {
   return typeof value === 'string' || typeof value === 'number' ? value : index
+}
+
+function keyedChildren(children: ReactNode) {
+  return Children.toArray(children).map((child, index) => (
+    <Fragment
+      key={isValidElement(child) && child.key !== null ? child.key : index}
+    >
+      {child}
+    </Fragment>
+  ))
 }

@@ -528,10 +528,11 @@ export const tokenGroups = [
   {
     label: 'Type',
     tokens: [
-      ['--ds-type-caption', 'var(--ds-type-caption)'],
+      ['--ds-type-label', 'var(--ds-type-label)'],
       ['--ds-type-body', 'var(--ds-type-body)'],
-      ['--ds-type-control', 'var(--ds-type-control)'],
       ['--ds-type-title', 'var(--ds-type-title)'],
+      ['--ds-type-page-title', 'var(--ds-type-page-title)'],
+      ['--ds-type-code', 'var(--ds-type-code)'],
     ],
   },
 ]

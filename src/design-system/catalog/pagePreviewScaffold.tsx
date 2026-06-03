@@ -1,7 +1,7 @@
 import { ContentAssembly } from '../primitives/primitives'
 import {
-  areaContent,
   codeSection,
+  contentStack,
   itemSection,
   markedCodeItems,
   meterSection,
@@ -9,14 +9,15 @@ import {
   recordSection,
   sectionGridBlock,
   statusSection,
+  type AreaContentBlock,
   valueSection,
 } from '../composition/assembly'
 
 export function assemblyNode(
-  blocks: Parameters<typeof areaContent>[0]['blocks'],
+  blocks: readonly AreaContentBlock[],
   key?: string | number,
 ) {
-  return <ContentAssembly key={key} content={areaContent({ blocks })} />
+  return <ContentAssembly key={key} content={contentStack(...blocks)} />
 }
 
 export function sampleStatusSection(title = 'Checks') {

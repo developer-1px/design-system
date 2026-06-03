@@ -123,8 +123,8 @@
 
 .ds-pattern-blueprint-cell[data-part='icon'],
 .ds-pattern-blueprint-cell[data-part='thumb'] {
-  width: var(--ds-space-18);
-  min-height: var(--ds-space-18);
+  width: var(--ds-space-16);
+  min-height: var(--ds-space-16);
   border-radius: var(--ds-radius-sm);
 }
 
@@ -166,7 +166,7 @@
 }
 
 .ds-pattern-blueprint[data-kind='range'] {
-  grid-template-columns: minmax(0, 1fr) var(--ds-space-18);
+  grid-template-columns: minmax(0, 1fr) var(--ds-space-16);
   align-items: center;
 }
 
@@ -177,6 +177,6 @@
 
 .ds-pattern-blueprint[data-kind='tree']
   .ds-pattern-blueprint-cell[data-part='branch'] {
-  width: calc(var(--ds-full) - var(--ds-space-18));
+  width: calc(var(--ds-full) - var(--ds-space-16));
   justify-self: end;
 }

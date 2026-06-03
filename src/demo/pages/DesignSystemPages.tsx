@@ -89,10 +89,21 @@ import {
   ValueList,
 } from '../../design-system/primitives/primitives'
 import {
-  areaContent,
   badgeNode,
+  cardBlock,
+  cardGridBlock,
+  cardPairBlock,
+  cardStackBlock,
+  choiceFieldGroup,
+  contentSlots,
+  contentStack,
   countNode,
+  defaultFormActions,
   deltaSectionBlock,
+  fieldGrid,
+  fieldStack,
+  formActions,
+  formBlock,
   gridBlock,
   itemSection,
   sectionBlock,
@@ -111,6 +122,7 @@ import {
   surfaceBlock,
   tableBlock,
   textColumn,
+  textInputField,
   textBlock,
   treeBlock,
   valueSectionBlock,
@@ -258,8 +270,8 @@ export function CatalogPage() {
         variant: 'list',
       })}
       title="Catalog"
-      mainContent={areaContent({
-        blocks: catalogSections.map(({ items, title }) =>
+      mainContent={contentStack(
+        ...catalogSections.map(({ items, title }) =>
           gridBlock({
             count: countNode(items.length),
             items: items.map((name) => catalogItem(name)),
@@ -267,7 +279,7 @@ export function CatalogPage() {
             title,
           }),
         ),
-      })}
+      )}
     />
   )
 }
@@ -333,8 +345,8 @@ export function ComponentsPage() {
       })}
       size="wide"
       title="Components"
-      mainContent={areaContent({
-        blocks: active
+      mainContent={contentStack(
+        ...(active
           ? [
               previewStageBlock({
                 children: active.preview.body,
@@ -342,8 +354,8 @@ export function ComponentsPage() {
                 title: active.item.name,
               }),
             ]
-          : [],
-      })}
+          : []),
+      )}
     />
   )
 }
@@ -368,87 +380,87 @@ export function CompositionPage() {
       })}
       size="wide"
       title="Composition formulas"
-      mainContent={areaContent({
-        blocks: [
-          sectionGridBlock(3, [
-            valueSection({
-              items: [
-                { label: 'Names', value: 'structural' },
-                { label: 'Slots', value: 'open' },
-                { label: 'Rhythm', value: 'owned' },
-                { label: 'Alignment', value: 'owned' },
-                { label: 'Density', value: 'owned' },
-                { label: 'Meaning', value: 'consumer-supplied' },
-              ],
-              title: 'Layer contract',
-            }),
-            statusSection({
-              items: [
-                { label: 'No app semantics in formula names', done: true },
-                { label: 'Demo domains provide content only', done: true },
-                { label: 'Composition owns rhythm and alignment', done: true },
-              ],
-              title: 'Rules',
-            }),
-            valueSection({
-              items: [
-                { label: 'Domain fixtures', value: compositionReuseRows.length },
-                { label: 'Formula groups', value: compositionFormulaGroups.length },
-                {
-                  label: 'Boundary',
-                  value: '@interactive-os/aria -> design-md -> app',
-                },
-              ],
-              title: 'Proof fixture',
-            }),
-          ]),
-          tableBlock({
-            columns: [
+      mainContent={contentStack(
+        sectionGridBlock(3, [
+          valueSection({
+            items: [
+              { label: 'Names', value: 'structural' },
+              { label: 'Slots', value: 'open' },
+              { label: 'Rhythm', value: 'owned' },
+              { label: 'Alignment', value: 'owned' },
+              { label: 'Density', value: 'owned' },
+              { label: 'Meaning', value: 'consumer-supplied' },
+            ],
+            title: 'Layer contract',
+          }),
+          statusSection({
+            items: [
+              { label: 'No app semantics in formula names', done: true },
+              { label: 'Demo domains provide content only', done: true },
+              { label: 'Composition owns rhythm and alignment', done: true },
+            ],
+            title: 'Rules',
+          }),
+          valueSection({
+            items: [
+              { label: 'Domain fixtures', value: compositionReuseRows.length },
+              { label: 'Formula groups', value: compositionFormulaGroups.length },
               {
-                key: 'page',
-                header: 'Fixture',
-                render: (row) => row.page,
-              },
-              {
-                key: 'layout',
-                header: 'Layout',
-                render: (row) => <InlineCode>{row.layout}</InlineCode>,
-              },
-              {
-                key: 'formulas',
-                header: 'Shared formulas',
-                render: (row) => (
-                  <Cluster>
-                    {row.formulas.map((formula) => (
-                      <InlineCode key={formula}>{formula}</InlineCode>
-                    ))}
-                  </Cluster>
-                ),
-              },
-              {
-                key: 'proof',
-                header: 'Proof',
-                render: (row) => row.proof,
+                label: 'Boundary',
+                value: '@interactive-os/aria -> design-md -> app',
               },
             ],
-            getRowKey: (row) => row.page,
-            rows: compositionReuseRows,
-            title: 'Cross-domain reuse',
+            title: 'Proof fixture',
           }),
-          sectionGridBlock(
-            2,
-            compositionFormulaGroups.map((group) =>
-              valueSection({
-                detail: group.detail,
-                items: group.items.slice(0, 5).map((formula) => ({
-                  label: formula.name,
-                  value: formula.output,
-                })),
-                title: group.title,
-              }),
-            ),
+        ]),
+        tableBlock({
+          columns: [
+            {
+              key: 'page',
+              header: 'Fixture',
+              render: (row) => row.page,
+            },
+            {
+              key: 'layout',
+              header: 'Layout',
+              render: (row) => <InlineCode>{row.layout}</InlineCode>,
+            },
+            {
+              key: 'formulas',
+              header: 'Shared formulas',
+              render: (row) => (
+                <Cluster>
+                  {row.formulas.map((formula) => (
+                    <InlineCode key={formula}>{formula}</InlineCode>
+                  ))}
+                </Cluster>
+              ),
+            },
+            {
+              key: 'proof',
+              header: 'Proof',
+              render: (row) => row.proof,
+            },
+          ],
+          getRowKey: (row) => row.page,
+          rows: compositionReuseRows,
+          title: 'Cross-domain reuse',
+        }),
+        sectionGridBlock(
+          2,
+          compositionFormulaGroups.map((group) =>
+            valueSection({
+              detail: group.detail,
+              items: group.items.slice(0, 5).map((formula) => ({
+                label: formula.name,
+                value: formula.output,
+              })),
+              title: group.title,
+            }),
           ),
-          ...compositionFormulaGroups.map((group) =>
+          'formula-summary-grid',
+        ),
+        ...compositionFormulaGroups.map((group) =>
           gridBlock({
             columns: 3,
             count: countNode(group.items.length),
@@ -456,9 +468,8 @@ export function CompositionPage() {
             key: group.title,
             title: group.title,
           }),
-          ),
-        ],
-      })}
+        ),
+      )}
     />
   )
 }
@@ -804,14 +815,62 @@ function componentPreviewFor(name: string): ComponentPreview {
           <PlaceholderSection lines={['full']} title="Surface" />
         </PageFrame>,
       )
-    case 'PageLayout':
+    case 'ContentStack':
       return controlPreview(
         <PageLayout
-          asideContent={areaContent({
-            blocks: [
+          mainContent={contentStack(
+            sectionBlock({
+              children: <SkeletonStack lines={['full']} />,
+              title: 'Main',
+            }),
+            statusSectionBlock({
+              items: [{ label: 'Ready', done: true }],
+              title: 'State',
+            }),
+          )}
+        />,
+        'wide',
+      )
+    case 'ContentSlots':
+      return controlPreview(
+        <PageLayout
+          {...contentSlots({
+            aside: [
               statusSectionBlock({
                 items: [{ label: 'Ready', done: true }],
                 title: 'Aside',
+              }),
+            ],
+            main: [
+              sectionBlock({
+                children: <SkeletonStack lines={['full']} />,
+                title: 'Main',
+              }),
+            ],
+          })}
+          layout="rail-main-aside"
+          railNavigation={navigation({
+            'aria-label': 'Preview page rail',
+            items: [{ current: true, label: 'Rail' }, { label: 'Filter' }],
+            variant: 'list',
+          })}
+        />,
+        'wide',
+      )
+    case 'PageLayout':
+      return controlPreview(
+        <PageLayout
+          {...contentSlots({
+            aside: [
+              statusSectionBlock({
+                items: [{ label: 'Ready', done: true }],
+                title: 'Aside',
+              }),
+            ],
+            main: [
+              sectionBlock({
+                children: <SkeletonStack lines={['full']} />,
+                title: 'Main',
               }),
             ],
           })}
@@ -821,14 +880,6 @@ function componentPreviewFor(name: string): ComponentPreview {
             'aria-label': 'Preview page rail',
             items: [{ current: true, label: 'Rail' }, { label: 'Filter' }],
             variant: 'list',
-          })}
-          mainContent={areaContent({
-            blocks: [
-              sectionBlock({
-                children: <SkeletonStack lines={['full']} />,
-                title: 'Main',
-              }),
-            ],
           })}
           title="Page layout"
         />,
@@ -1194,6 +1245,152 @@ function componentPreviewFor(name: string): ComponentPreview {
           title: 'Surface',
         }),
       ])
+    case 'CardBlock':
+      return assemblyPreview([
+        cardBlock({
+          actions: stateNode('ready'),
+          children: <SkeletonStack lines={['full', 'long', 'medium']} />,
+          title: 'Card',
+        }),
+      ])
+    case 'CardPairBlock':
+      return assemblyPreview(
+        [
+          cardPairBlock(
+            'Card pair',
+            {
+              children: <SkeletonStack lines={['full', 'medium']} />,
+              title: 'Primary',
+            },
+            {
+              children: <SkeletonStack lines={['long', 'short']} />,
+              title: 'Secondary',
+            },
+          ),
+        ],
+        'wide',
+      )
+    case 'CardStackBlock':
+      return assemblyPreview([
+        cardStackBlock('Card stack', [
+          {
+            children: <SkeletonStack lines={['full', 'medium']} />,
+            title: 'First',
+          },
+          {
+            children: <SkeletonStack lines={['long', 'short']} />,
+            title: 'Second',
+          },
+        ]),
+      ])
+    case 'CardGridBlock':
+      return assemblyPreview(
+        [
+          cardGridBlock({
+            cards: [
+              {
+                children: <SkeletonStack lines={['full', 'medium']} />,
+                title: 'Primary',
+              },
+              {
+                children: <SkeletonStack lines={['long', 'short']} />,
+                title: 'Secondary',
+              },
+              {
+                children: <SkeletonStack lines={['medium', 'short']} />,
+                title: 'Tertiary',
+              },
+            ],
+            columns: 3,
+            title: 'Card grid',
+          }),
+        ],
+        'wide',
+      )
+    case 'FormBlock':
+      return assemblyPreview([
+        formBlock({
+          children: fieldStack([
+            textInputField({
+              id: 'preview-form-title',
+              inputProps: { readOnly: true, value: 'Compact' },
+              key: 'text',
+              label: 'Text',
+            }),
+            choiceFieldGroup({
+              choices: [
+                { checked: true, label: 'Primary choice' },
+                { label: 'Secondary choice' },
+              ],
+              key: 'choices',
+              legend: 'Choices',
+            }),
+          ]),
+          footer: defaultFormActions(),
+          title: 'Form',
+        }),
+      ])
+    case 'FieldStack':
+      return controlPreview(
+        fieldStack([
+          textInputField({
+            id: 'preview-field-stack-one',
+            inputProps: { readOnly: true, value: 'One' },
+            key: 'first',
+            label: 'First',
+          }),
+          textInputField({
+            id: 'preview-field-stack-two',
+            inputProps: { readOnly: true, value: 'Two' },
+            key: 'second',
+            label: 'Second',
+          }),
+        ]),
+      )
+    case 'FieldGrid':
+      return controlPreview(
+        fieldGrid(2, [
+          textInputField({
+            id: 'preview-field-grid-one',
+            inputProps: { readOnly: true, value: 'One' },
+            key: 'first',
+            label: 'First',
+          }),
+          textInputField({
+            id: 'preview-field-grid-two',
+            inputProps: { readOnly: true, value: 'Two' },
+            key: 'second',
+            label: 'Second',
+          }),
+        ]),
+        'wide',
+      )
+    case 'TextInputField':
+      return controlPreview(
+        textInputField({
+          id: 'preview-text-input-field',
+          inputProps: { readOnly: true, value: 'Value' },
+          label: 'Label',
+          trailing: <Search />,
+        }),
+      )
+    case 'ChoiceFieldGroup':
+      return controlPreview(
+        choiceFieldGroup({
+          choices: [
+            { checked: true, label: 'Compact' },
+            { label: 'Comfortable' },
+          ],
+          legend: 'Density',
+        }),
+      )
+    case 'FormActions':
+      return controlPreview(
+        formActions([
+          <Button key="secondary" variant="ghost">Reset</Button>,
+          <Button key="primary">Apply</Button>,
+        ]),
+      )
     case 'TableBlock':
       return assemblyPreview([
         tableBlock({

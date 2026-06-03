@@ -1,7 +1,7 @@
 import { Check, CircleDot, Columns3, FileText } from 'lucide-react'
 import { InlineCode, PageLayout, Swatch } from '../../design-system/primitives/primitives'
 import {
-  areaContent,
+  contentStack,
   sectionGridBlock,
   navigation,
   statusSection,
@@ -26,8 +26,7 @@ export function TokensPage() {
         variant: 'list',
       })}
       size="document"
-      mainContent={areaContent({
-        blocks: [
+      mainContent={contentStack(
           sectionGridBlock(2, [
             ...tokenGroups.map((group) => ({
               key: group.label,
@@ -54,8 +53,7 @@ export function TokensPage() {
               title: 'Checks',
             }),
           ]),
-        ],
-      })}
+      )}
       title="Values"
     />
   )
@@ -77,8 +75,7 @@ export function SettingsPage() {
         variant: 'list',
       })}
       size="document"
-      mainContent={areaContent({
-        blocks: [
+      mainContent={contentStack(
           sectionGridBlock(2, [
             valueSection({
               items: [
@@ -108,8 +105,7 @@ export function SettingsPage() {
               title: 'Rules',
             }),
           ]),
-        ],
-      })}
+      )}
       title="Demo defaults"
     />
   )

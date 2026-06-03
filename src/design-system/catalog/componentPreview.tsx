@@ -1,6 +1,6 @@
 import type { HTMLAttributes, ReactNode } from 'react'
 import { ContentAssembly } from '../primitives/primitives'
-import { areaContent } from '../composition/assembly'
+import { contentStack } from '../composition/assembly'
 import { previewStageBlock, previewTileBlock } from './componentPreviewBlocks'
 import type { PreviewMode } from './componentPreviewTypes'
 export { PreviewViewport } from './componentPreviewViewport'
@@ -31,18 +31,16 @@ export function PreviewTile({
 } & HTMLAttributes<HTMLDivElement>) {
   return (
     <ContentAssembly
-      content={areaContent({
-        blocks: [
-          previewTileBlock({
-            children,
-            className,
-            detail,
-            mode,
-            title,
-            ...props,
-          }),
-        ],
-      })}
+      content={contentStack(
+        previewTileBlock({
+          children,
+          className,
+          detail,
+          mode,
+          title,
+          ...props,
+        }),
+      )}
     />
   )
 }
@@ -61,17 +59,15 @@ export function PreviewStage({
 } & HTMLAttributes<HTMLDivElement>) {
   return (
     <ContentAssembly
-      content={areaContent({
-        blocks: [
-          previewStageBlock({
-            children,
-            className,
-            mode,
-            title,
-            ...props,
-          }),
-        ],
-      })}
+      content={contentStack(
+        previewStageBlock({
+          children,
+          className,
+          mode,
+          title,
+          ...props,
+        }),
+      )}
     />
   )
 }

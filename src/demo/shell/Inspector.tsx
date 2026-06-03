@@ -14,7 +14,7 @@ import {
   ShellInspector,
 } from '../../design-system/primitives/primitives'
 import {
-  areaContent,
+  contentStack,
   deltaNode,
   itemSection,
   sectionPairBlock,
@@ -26,8 +26,7 @@ export function Inspector() {
   return (
     <ShellInspector aria-label="Progress inspector">
       <ContentAssembly
-        content={areaContent({
-          blocks: [
+        content={contentStack(
             statusSectionBlock({
               icon: <Clock3 />,
               items: progress.map((item) => ({
@@ -65,8 +64,7 @@ export function Inspector() {
                   title: '출처',
                 }),
             ),
-          ],
-        })}
+        )}
       />
     </ShellInspector>
   )

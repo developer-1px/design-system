@@ -1,26 +1,53 @@
-import type { ReactNode } from 'react'
+import { Children, type InputHTMLAttributes, type ReactNode } from 'react'
 import {
   Badge,
   type BadgeTone,
+  Button,
   CheckboxInput,
+  CheckboxRow,
+  Cluster,
   type AreaContentSpec,
   type CollectionColumns,
   type DataColumn,
   DeltaPair,
+  Field,
+  FieldGroup,
+  type FormBlockSpec,
+  InputFrame,
   InlineCode,
   type ListSectionSetItem,
   type MetaBlockSpec,
   type NavigationProps,
+  RowStack,
+  Section,
+  SectionGrid,
   StateBadge,
   type SurfaceBlockSpec,
   type TableSectionSpec,
+  TextInput,
   type TextBlockSpec,
   type TitledGridBlockSpec,
   type TreeSectionSpec,
   TextStack,
 } from '../primitives/primitives'
 
-type AreaContentBlock = AreaContentSpec['blocks'][number]
+export type AreaContentBlock = AreaContentSpec['blocks'][number]
+
+export type ContentSlotSpec = {
+  aside?: readonly AreaContentBlock[]
+  main?: readonly AreaContentBlock[]
+  rail?: readonly AreaContentBlock[]
+  secondary?: readonly AreaContentBlock[]
+  tertiary?: readonly AreaContentBlock[]
+}
+
+export type ContentSlotProps = {
+  asideContent?: AreaContentSpec
+  mainContent?: AreaContentSpec
+  railContent?: AreaContentSpec
+  secondaryContent?: AreaContentSpec
+  tertiaryContent?: AreaContentSpec
+}
 
 type SectionKind =
   | 'code'
@@ -55,6 +82,34 @@ type MeasureItem = {
   value: number
 }
 
+export type CardGridSpec = {
+  cards: readonly SurfaceBlockSpec[]
+  columns?: CollectionColumns
+  count?: ReactNode
+  key?: string | number
+  title: ReactNode
+}
+
+export type TextInputFieldSpec = {
+  id: string
+  inputProps?: Omit<InputHTMLAttributes<HTMLInputElement>, 'id' | 'type'> & {
+    type?: 'number' | 'search' | 'text'
+  }
+  key?: string | number
+  label: string
+  trailing?: ReactNode
+}
+
+export type ChoiceFieldGroupSpec = {
+  choices: readonly {
+    checked?: boolean
+    key?: string | number
+      label: ReactNode
+    }[]
+  key?: string | number
+  legend: string
+}
+
 type MarkedLine = readonly [ReactNode, ReactNode]
 type DeltaParts = {
   negative: string
@@ -70,6 +125,34 @@ function sectionOf<K extends SectionKind>(
 
 export function areaContent(spec: AreaContentSpec): AreaContentSpec {
   return spec
+}
+
+export function contentStack(
+  ...blocks: readonly AreaContentBlock[]
+): AreaContentSpec {
+  return areaContent({ blocks: [...blocks] })
+}
+
+function optionalContentStack(
+  blocks: readonly AreaContentBlock[] | undefined,
+): AreaContentSpec | undefined {
+  return blocks ? contentStack(...blocks) : undefined
+}
+
+export function contentSlots({
+  aside,
+  main,
+  rail,
+  secondary,
+  tertiary,
+}: ContentSlotSpec): ContentSlotProps {
+  return {
+    asideContent: optionalContentStack(aside),
+    mainContent: optionalContentStack(main),
+    railContent: optionalContentStack(rail),
+    secondaryContent: optionalContentStack(secondary),
+    tertiaryContent: optionalContentStack(tertiary),
+  }
 }
 
 export function navigation(spec: NavigationProps): NavigationProps {
@@ -183,6 +266,50 @@ export function surfaceBlock(spec: SurfaceBlockSpec): AreaContentBlock {
   return { ...spec, block: 'surface' } as AreaContentBlock
 }
 
+export function cardBlock(spec: SurfaceBlockSpec): AreaContentBlock {
+  return surfaceBlock(spec)
+}
+
+export function formBlock(spec: FormBlockSpec): AreaContentBlock {
+  return { ...spec, block: 'form' } as AreaContentBlock
+}
+
+export function cardNode(spec: SurfaceBlockSpec): ReactNode {
+  const { key: _key, ...sectionProps } = spec
+  void _key
+
+  return <Section {...sectionProps} />
+}
+
+export function cardGridBlock(spec: CardGridSpec): AreaContentBlock {
+  return gridBlock({
+    columns: spec.columns,
+    count: spec.count,
+    items: spec.cards.map((card, index) => (
+      <div key={card.key ?? index}>{cardNode(card)}</div>
+    )),
+    key: spec.key,
+    title: spec.title,
+  })
+}
+
+export function cardPairBlock(
+  title: ReactNode,
+  first: SurfaceBlockSpec,
+  second: SurfaceBlockSpec,
+  key?: string | number,
+): AreaContentBlock {
+  return cardGridBlock({ cards: [first, second], columns: 2, key, title })
+}
+
+export function cardStackBlock(
+  title: ReactNode,
+  cards: readonly SurfaceBlockSpec[],
+  key?: string | number,
+): AreaContentBlock {
+  return cardGridBlock({ cards, columns: 1, key, title })
+}
+
 export function tableBlock<T>(spec: TableSectionSpec<T>): AreaContentBlock {
   return {
     ...(spec as unknown as TableSectionSpec<unknown>),
@@ -192,6 +319,70 @@ export function tableBlock<T>(spec: TableSectionSpec<T>): AreaContentBlock {
 
 export function treeBlock(spec: TreeSectionSpec): AreaContentBlock {
   return { ...spec, block: 'tree' } as AreaContentBlock
+}
+
+export function fieldStack(fields: readonly ReactNode[]): ReactNode {
+  return <RowStack>{Children.toArray(fields)}</RowStack>
+}
+
+export function fieldGrid(
+  columns: CollectionColumns,
+  fields: readonly ReactNode[],
+): ReactNode {
+  return <SectionGrid columns={columns}>{Children.toArray(fields)}</SectionGrid>
+}
+
+export function textInputField({
+  id,
+  inputProps,
+  key,
+  label,
+  trailing,
+}: TextInputFieldSpec): ReactNode {
+  return (
+    <Field htmlFor={id} key={key} label={label}>
+      <InputFrame trailing={trailing}>
+        <TextInput id={id} {...inputProps} />
+      </InputFrame>
+    </Field>
+  )
+}
+
+export function choiceFieldGroup({
+  choices,
+  key,
+  legend,
+}: ChoiceFieldGroupSpec): ReactNode {
+  return (
+    <FieldGroup key={key} legend={legend}>
+      {choices.map((choice, index) => (
+        <CheckboxRow
+          checked={choice.checked}
+          key={choice.key ?? index}
+          readOnly
+        >
+          {choice.label}
+        </CheckboxRow>
+      ))}
+    </FieldGroup>
+  )
+}
+
+export function formActions(actions: readonly ReactNode[]): ReactNode {
+  return (
+    <Cluster>
+      {actions.map((action, index) => (
+        <span key={index}>{action}</span>
+      ))}
+    </Cluster>
+  )
+}
+
+export function defaultFormActions(): ReactNode {
+  return formActions([
+    <Button key="secondary" variant="ghost">Cancel</Button>,
+    <Button key="primary">Apply</Button>,
+  ])
 }
 
 export function codeSection(

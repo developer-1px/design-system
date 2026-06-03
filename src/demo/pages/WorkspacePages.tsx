@@ -30,12 +30,12 @@ import {
   StateColumn,
 } from '../../design-system/primitives/primitives'
 import {
-  areaContent,
   badgeColumn,
   badgeNode,
   codeColumn,
   codeSectionBlock,
   codeSection,
+  contentStack,
   countNode,
   deltaNodeFromText,
   deltaSectionBlock,
@@ -78,8 +78,7 @@ export function WorkstreamPage() {
   return (
     <PageLayout
       layout="main"
-      mainContent={areaContent({
-        blocks: [
+      mainContent={contentStack(
           textBlock({
             children: (
               <>
@@ -153,8 +152,7 @@ export function WorkstreamPage() {
             ],
             title: '명령어 3개 실행함',
           }),
-        ],
-      })}
+      )}
     />
   )
 }
@@ -165,8 +163,7 @@ export function ProjectsPage() {
   return (
     <PageLayout
       actions={<Button icon={<Search />}>검색</Button>}
-      asideContent={areaContent({
-        blocks: [
+      asideContent={contentStack(
           statusSectionBlock({
             items: [
               { label: '승인 대기 큐 확인', done: true },
@@ -175,8 +172,7 @@ export function ProjectsPage() {
             ],
             title: 'Activity',
           }),
-        ],
-      })}
+      )}
       eyebrow="Workspace"
       railNavigation={navigation({
         'aria-label': 'Project groups',
@@ -188,8 +184,7 @@ export function ProjectsPage() {
         })),
         variant: 'list',
       })}
-      mainContent={areaContent({
-        blocks: [
+      mainContent={contentStack(
           metricSectionBlock({
             columns: 3,
             items: metricItems(projects, [
@@ -249,8 +244,7 @@ export function ProjectsPage() {
               key: project.name,
             })),
           ),
-        ],
-      })}
+      )}
       title="Projects"
     />
   )
@@ -281,8 +275,7 @@ export function ChangesPage() {
           <Button variant="primary">리뷰</Button>
         </>
       }
-      asideContent={areaContent({
-        blocks: [
+      asideContent={contentStack(
           sectionPairBlock(
               valueSection({
                 items: [
@@ -304,8 +297,7 @@ export function ChangesPage() {
                 title: 'Review',
               }),
           ),
-        ],
-      })}
+      )}
       eyebrow="Review"
       railNavigation={navigation({
         'aria-label': 'Change files',
@@ -318,8 +310,7 @@ export function ChangesPage() {
         })),
         variant: 'list',
       })}
-      mainContent={areaContent({
-        blocks: [
+      mainContent={contentStack(
           tableBlock({
             actions: deltaNode(
               `+${totalDelta.positive}`,
@@ -353,8 +344,7 @@ export function ChangesPage() {
               <InlineCode>{selectedFile.path.split('/').at(-1)}</InlineCode>
             ),
           }),
-        ],
-      })}
+      )}
       title="Changes"
     />
   )
@@ -364,8 +354,7 @@ export function RunsPage() {
   return (
     <PageLayout
       actions={<Button icon={<SquareTerminal />}>새 실행</Button>}
-      asideContent={areaContent({
-        blocks: [
+      asideContent={contentStack(
           statusSectionBlock({
             items: [
               { label: 'git status', done: true },
@@ -377,8 +366,7 @@ export function RunsPage() {
             ],
             title: 'Checks',
           }),
-        ],
-      })}
+      )}
       eyebrow="Runtime"
       railNavigation={navigation({
         'aria-label': 'Run filters',
@@ -389,8 +377,7 @@ export function RunsPage() {
         ],
         variant: 'list',
       })}
-      mainContent={areaContent({
-        blocks: [
+      mainContent={contentStack(
           recordSectionBlock({
             items: runLog.map((run, index) => ({
               detail: run.result,
@@ -401,8 +388,7 @@ export function RunsPage() {
             })),
             title: 'Log',
           }),
-        ],
-      })}
+      )}
       title="Runs"
     />
   )
@@ -411,8 +397,7 @@ export function RunsPage() {
 export function ApprovalsPage() {
   return (
     <PageLayout
-      asideContent={areaContent({
-        blocks: [
+      asideContent={contentStack(
           statusSectionBlock({
             items: [
               { label: 'Dangerous command gate', done: true },
@@ -421,8 +406,7 @@ export function ApprovalsPage() {
             ],
             title: 'Policy',
           }),
-        ],
-      })}
+      )}
       eyebrow="Permissions"
       railNavigation={navigation({
         'aria-label': 'Approval states',
@@ -433,8 +417,7 @@ export function ApprovalsPage() {
         ],
         variant: 'list',
       })}
-      mainContent={areaContent({
-        blocks: [
+      mainContent={contentStack(
           sectionPairBlock(
               recordSection({
                 items: approvals.map((approval) => ({
@@ -460,8 +443,7 @@ export function ApprovalsPage() {
                 title: 'Commands',
               }),
           ),
-        ],
-      })}
+      )}
       title="Approvals"
     />
   )
@@ -522,8 +504,7 @@ export function SourcesPage() {
   return (
     <PageLayout
       actions={<Button icon={<Globe2 />}>출처 추가</Button>}
-      asideContent={areaContent({
-        blocks: [
+      asideContent={contentStack(
           statusSectionBlock({
             items: [
               { label: 'Prefer current code', done: true },
@@ -532,8 +513,7 @@ export function SourcesPage() {
             ],
             title: 'Use',
           }),
-        ],
-      })}
+      )}
       eyebrow="Evidence"
       railNavigation={navigation({
         'aria-label': 'Source types',
@@ -545,8 +525,7 @@ export function SourcesPage() {
         ],
         variant: 'list',
       })}
-      mainContent={areaContent({
-        blocks: [
+      mainContent={contentStack(
           tableBlock({
             columns: [
               detailColumn<(typeof sourceRows)[number]>({
@@ -563,8 +542,7 @@ export function SourcesPage() {
             rows: sourceRows,
             title: 'Evidence',
           }),
-        ],
-      })}
+      )}
       title="Sources"
     />
   )
@@ -583,8 +561,7 @@ export function DatabasePage() {
           ]}
         />
       }
-      asideContent={areaContent({
-        blocks: [
+      asideContent={contentStack(
           sectionPairBlock(
               valueSection({
                 icon: <Users />,
@@ -604,8 +581,7 @@ export function DatabasePage() {
                 title: 'Checks',
               }),
           ),
-        ],
-      })}
+      )}
       eyebrow="Private Database"
       railNavigation={navigation({
         'aria-label': 'Database views',
@@ -618,8 +594,7 @@ export function DatabasePage() {
         variant: 'list',
       })}
       size="wide"
-      mainContent={areaContent({
-        blocks: [
+      mainContent={contentStack(
           tableBlock({
             columns: [
               selectColumn<(typeof dataRows)[number]>({
@@ -638,8 +613,7 @@ export function DatabasePage() {
             rows: dataRows,
             title: 'Employees',
           }),
-        ],
-      })}
+      )}
       title="Employee overview"
     />
   )
@@ -704,19 +678,16 @@ export function AnalyticsPage() {
           ]}
         />
       }
-      asideContent={areaContent({
-        blocks: [
+      asideContent={contentStack(
           meterSectionBlock({
             icon: <BarChart3 />,
             items: funnelRows,
             title: 'Funnel',
           }),
-        ],
-      })}
+      )}
       eyebrow="Analytics / Growth"
       layout="matrix"
-      secondaryContent={areaContent({
-        blocks: [
+      secondaryContent={contentStack(
           tableBlock({
             columns: [
               textColumn<(typeof eventRows)[number]>('event', 'Event'),
@@ -729,10 +700,8 @@ export function AnalyticsPage() {
             rows: eventRows,
             title: 'Segments',
           }),
-        ],
-      })}
-      tertiaryContent={areaContent({
-        blocks: [
+      )}
+      tertiaryContent={contentStack(
           recordSectionBlock({
             items: [
               {
@@ -763,10 +732,8 @@ export function AnalyticsPage() {
             ],
             title: 'Cohorts',
           }),
-        ],
-      })}
-      mainContent={areaContent({
-        blocks: [
+      )}
+      mainContent={contentStack(
           metricSectionBlock({
             columns: 2,
             icon: <BarChart3 />,
@@ -790,8 +757,7 @@ export function AnalyticsPage() {
             ],
             title: 'North star',
           }),
-        ],
-      })}
+      )}
       title="Growth overview"
     />
   )
@@ -842,8 +808,7 @@ export function CommercePage() {
   return (
     <PageLayout
       actions={<Button icon={<ShoppingCart />}>새 주문</Button>}
-      asideContent={areaContent({
-        blocks: [
+      asideContent={contentStack(
           sectionPairBlock(
               valueSection({
                 icon: <ShoppingCart />,
@@ -866,12 +831,10 @@ export function CommercePage() {
                 title: 'Inventory',
               }),
           ),
-        ],
-      })}
+      )}
       eyebrow="Commerce / Operations"
       layout="triad"
-      secondaryContent={areaContent({
-        blocks: [
+      secondaryContent={contentStack(
           tableBlock({
             columns: [
               textColumn<(typeof orderRows)[number]>('id', 'Order'),
@@ -884,10 +847,8 @@ export function CommercePage() {
             rows: orderRows,
             title: 'Orders',
           }),
-        ],
-      })}
-      tertiaryContent={areaContent({
-        blocks: [
+      )}
+      tertiaryContent={contentStack(
           metricSectionBlock({
             columns: 3,
             items: [
@@ -901,10 +862,8 @@ export function CommercePage() {
             ],
             title: 'Metrics',
           }),
-        ],
-      })}
-      mainContent={areaContent({
-        blocks: [
+      )}
+      mainContent={contentStack(
           statusSectionBlock({
             icon: <ShoppingCart />,
             items: [
@@ -917,8 +876,7 @@ export function CommercePage() {
             ],
             title: 'Work queue',
           }),
-        ],
-      })}
+      )}
       title="Store operations"
     />
   )
@@ -980,8 +938,7 @@ export function CrmPage() {
   return (
     <PageLayout
       actions={<Button icon={<Users />}>계정 추가</Button>}
-      asideContent={areaContent({
-        blocks: [
+      asideContent={contentStack(
           sectionPairBlock(
               valueSection({
                 items: [
@@ -1002,12 +959,10 @@ export function CrmPage() {
                 title: 'Activity',
               }),
           ),
-        ],
-      })}
+      )}
       eyebrow="CRM / Sales"
       layout="main-stack-aside"
-      secondaryContent={areaContent({
-        blocks: [
+      secondaryContent={contentStack(
           tableBlock({
             columns: [
               textColumn<(typeof accountRows)[number]>('account', 'Account'),
@@ -1020,8 +975,7 @@ export function CrmPage() {
             rows: accountRows,
             title: 'Accounts',
           }),
-        ],
-      })}
+      )}
       tabsNavigation={navigation({
         'aria-label': 'CRM views',
         items: [
@@ -1031,8 +985,7 @@ export function CrmPage() {
         ],
         variant: 'tabs',
       })}
-      mainContent={areaContent({
-        blocks: [
+      mainContent={contentStack(
           sectionGridBlock(
             4,
             dealColumns.map(({ deals, stage }) => ({
@@ -1049,8 +1002,7 @@ export function CrmPage() {
               key: stage,
             })),
           ),
-        ],
-      })}
+      )}
       title="Pipeline"
     />
   )
@@ -1077,8 +1029,7 @@ export function SchedulePage() {
   return (
     <PageLayout
       actions={<Button icon={<CalendarDays />}>일정 추가</Button>}
-      asideContent={areaContent({
-        blocks: [
+      asideContent={contentStack(
           sectionPairBlock(
               meterSection({
                 items: [
@@ -1099,8 +1050,7 @@ export function SchedulePage() {
                 title: 'Prep',
               }),
           ),
-        ],
-      })}
+      )}
       eyebrow="Schedule / Resources"
       railNavigation={navigation({
         'aria-label': 'Schedule days',
@@ -1112,8 +1062,7 @@ export function SchedulePage() {
         ],
         variant: 'list',
       })}
-      mainContent={areaContent({
-        blocks: [
+      mainContent={contentStack(
           recordSectionBlock({
             icon: <CalendarDays />,
             items: slots.map(([time, title, room]) => ({
@@ -1136,8 +1085,7 @@ export function SchedulePage() {
             rows: resourceRows,
             title: 'Resources',
           }),
-        ],
-      })}
+      )}
       title="Resource plan"
     />
   )
@@ -1168,8 +1116,7 @@ export function ContentPage() {
   return (
     <PageLayout
       actions={<Button icon={<FileText />}>새 문서</Button>}
-      asideContent={areaContent({
-        blocks: [
+      asideContent={contentStack(
           sectionTrioBlock(
               valueSection({
                 actions: stateNode('Review'),
@@ -1199,8 +1146,7 @@ export function ContentPage() {
                 title: 'Checklist',
               }),
           ),
-        ],
-      })}
+      )}
       eyebrow="Content / Publishing"
       railNavigation={navigation({
         'aria-label': 'Content stages',
@@ -1211,8 +1157,7 @@ export function ContentPage() {
         ],
         variant: 'list',
       })}
-      mainContent={areaContent({
-        blocks: [
+      mainContent={contentStack(
           tableBlock({
             columns: [
               textColumn<(typeof contentRows)[number]>('title', 'Title'),
@@ -1225,8 +1170,7 @@ export function ContentPage() {
             rows: contentRows,
             title: 'Queue',
           }),
-        ],
-      })}
+      )}
       title="Editorial queue"
     />
   )
@@ -1278,8 +1222,7 @@ export function RepositoryPage() {
           <Button icon={<GitPullRequest />}>New pull request</Button>
         </>
       }
-      asideContent={areaContent({
-        blocks: [
+      asideContent={contentStack(
           sectionTrioBlock(
               recordSection({
                 items: [
@@ -1326,11 +1269,9 @@ export function RepositoryPage() {
                 title: 'Project',
               }),
           ),
-        ],
-      })}
+      )}
       eyebrow="interactive-os / design-md"
-      railContent={areaContent({
-        blocks: [
+      railContent={contentStack(
           treeBlock({
             icon: <GitBranch />,
             items: treeGroups.map(([root, ...paths]) => ({
@@ -1345,8 +1286,7 @@ export function RepositoryPage() {
             })),
             title: 'Files',
           }),
-        ],
-      })}
+      )}
       size="wide"
       tabsNavigation={navigation({
         'aria-label': 'Repository sections',
@@ -1362,8 +1302,7 @@ export function RepositoryPage() {
         ],
         variant: 'tabs',
       })}
-      mainContent={areaContent({
-        blocks: [
+      mainContent={contentStack(
           tableBlock({
             actions: deltaNode('+271', '-51'),
             columns: [
@@ -1382,8 +1321,7 @@ export function RepositoryPage() {
             items: markedCodeItems(diffLines),
             title: 'Router split',
           }),
-        ],
-      })}
+      )}
       title="Design system workspace"
     />
   )

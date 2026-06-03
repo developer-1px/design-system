@@ -6,7 +6,7 @@
   align-items: center;
   column-gap: var(--ds-row-inline-gap);
   color: var(--ds-text-muted);
-  font: var(--ds-type-caption);
+  font: var(--ds-type-label);
 }
 
 .ds-molecule-marker {
@@ -48,12 +48,12 @@
 
 .ds-molecule-detail {
   color: var(--ds-text-muted);
-  font: var(--ds-type-caption);
+  font: var(--ds-type-label);
 }
 
 .ds-molecule-row[data-label-tone='strong'] .ds-molecule-title {
   color: var(--ds-text);
-  font: var(--ds-type-control);
+  font: var(--ds-type-title);
 }
 
 .ds-molecule-row[data-label-tone='code'] .ds-molecule-title {
@@ -63,13 +63,13 @@
 
 .ds-molecule-value {
   color: var(--ds-text);
-  font: var(--ds-type-control);
+  font: var(--ds-type-title);
   text-align: right;
 }
 
 .ds-molecule-row[data-value-tone='muted'] .ds-molecule-value {
   color: var(--ds-text-faint);
-  font: var(--ds-type-caption);
+  font: var(--ds-type-label);
 }
 
 .ds-molecule-row[data-value-tone='positive'] .ds-molecule-value {
